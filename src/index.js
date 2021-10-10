@@ -1,21 +1,13 @@
-import { ApolloServer, gql } from 'apollo-server'
+import { ApolloServer, gql } from "apollo-server";
+import { typeDefs, resolvers } from "./graphql/schema";
 
 const server = new ApolloServer({
-    typeDefs: gql`
-        type Query {
-            hello: String
-        }`,
-        resolvers: {
-            Query: {
-                hello: () => {
-                    return 'Hello world!';
-                }
-            }
-        }
-})
+  typeDefs,
+  resolvers
+});
 
-const port = 7000
+const port = 7000;
 
 server.listen(port, () => {
-    console.log(`Server running on port ${port}.`)
-})
+  console.log(`Server running on port ${port}.`);
+});
