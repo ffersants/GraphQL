@@ -1,25 +1,14 @@
-const user = () => {
-    return {
-        id: 1,
-        userName: 'Fernando'
-    }
+import fetch from 'node-fetch'
+
+const user = async (parent, args, context, info) => {
+    console.log(args)
+    const user = await fetch(`http://localhost:3000/users/${id}`)
+    return user.json()
 }
 
-const users = () => {
-    return [
-        {
-            id: 1,
-            userName: 'Fernando'
-        },
-        {
-            id: 3,
-            userName: 'Ricardo'
-        },
-        {
-            id: 5,
-            userName: 'Amanda'
-        }
-    ]
+const users = async (parent, resolverArguments) => {
+   const users = await fetch('http://localhost:3000/users')
+   return users.json()
 }
 
 export const userResolvers = {
