@@ -1,9 +1,11 @@
 import { ApolloServer, gql } from "apollo-server";
 import { typeDefs, resolvers } from "./graphql/schema";
+import { context } from "./graphql/context";
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  context
 });
 
 const port = 7000;
