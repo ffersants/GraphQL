@@ -27,6 +27,16 @@ export const postResolvers = {
         posts
     },
     Post: {
-        daysFromCreation
+        daysFromCreation: (arg1) => {
+            const {createdAt} = arg1
+            const postDate = new Date(createdAt)
+            const today = new Date()
+        
+            const differenceBetweenDays = Math.abs(today - postDate)
+        
+            const diffInDays = Math.ceil(differenceBetweenDays / (1000*60*60*24));
+        
+            return diffInDays
+        }
     }
 } 

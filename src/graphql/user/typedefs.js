@@ -3,6 +3,7 @@ import { gql } from "apollo-server-core";
 export const userTypeDefs = gql`
     extend type Query{
         user(id: ID!): User!
+        userByName(firstName: String!): [User!]!
         users: [User!]!
     }
     type User {
@@ -12,5 +13,6 @@ export const userTypeDefs = gql`
         userName: String!
         indexRef: Int!
         createdAt: String!
+        fullName: String!
     }   
 `

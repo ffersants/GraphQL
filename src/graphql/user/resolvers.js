@@ -10,9 +10,23 @@ const users = async (parent, resolverArguments, {getUsers}) => {
    return users.json()
 }
 
+async function userByName(parent, {firstName}, {getUsers}) {
+    const user = await getUsers(`?firstName=${firstName}`)
+    return user.json();
+}
+
+const fullName = (parent, resolverArguments, context, info) => {
+    const {firstName, lastName} = parent
+    return `${firstName} ${lastName}`;
+}
+
 export const userResolvers = {
     Query: {
         user,
-        users
+        users,
+        userByName
+    },
+    User: {
+        fullName
     }
 }
