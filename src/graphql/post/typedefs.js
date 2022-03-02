@@ -4,6 +4,7 @@ export const postTypeDefs = gql`
     extend type Query {
         post(id: ID): Post
         posts: [Post]
+        postsPagination(filters: ApiFilters): [Post]!
     }
     type Post {
         id: ID!
@@ -14,6 +15,5 @@ export const postTypeDefs = gql`
         createdAt: String!
         daysFromCreation: Int!
     }
-    
 `
  
