@@ -1,7 +1,24 @@
 const post = async (_, {id}, {getPosts}) => {
-    const post = await getPosts(`/${id}`)
-    console.log(id)
-    return post.json()
+    //execução do resolver para tipo union passa primeiro aqui
+    const result = await getPosts(`/${id}`)
+    const post = await result.json()
+
+    if(Math.random() > Math.random()){
+        return {
+            statusCode: 404,
+            message: "Connection timeout",
+            postId: id
+        }
+    }
+
+    if(typeof post.id === "undefined") {
+        return {
+            statusCode: 404,
+            message: "Couldn't find post"
+        }
+    }
+
+    return post
 }
 
 const posts = async (_, __, {getPosts}) => {
@@ -35,5 +52,21 @@ export const postResolvers = {
     },
     Post: {
         daysFromCreation
+    }, 
+    QueryResult: {
+        __resolveType: (obj) => {
+            //depois de ter executada a função resolver post(id), é executado essa função
+            if(typeof obj.statusCode !== "undefined") return 'QueryWarning'
+            if(typeof obj.postId !== "undefined") return 'QueryTimeOut'
+            if(typeof obj.id !== "undefined") return 'Post'
+            return null
+        }
+    },
+    ErrosAndWarnings: {
+        __resolveType: (obj) => {
+            if(typeof obj.statusCode !== "undefined") return 'QueryWarning'
+            if(typeof obj.postId !== "undefined") return 'QueryTimeOut'
+            return null
+        }
     }
 } 
