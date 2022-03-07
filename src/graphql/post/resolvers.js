@@ -1,6 +1,3 @@
-import DataLoader from "dataloader"
-import fetch from 'node-fetch'
-
 const post = async (_, {id}, {getPosts}) => {
     //execução do resolver para tipo union passa primeiro aqui
     const result = await getPosts(`/${id}`)
@@ -42,28 +39,13 @@ const daysFromCreation = (arg1) => {
     const today = new Date()
 
     const differenceBetweenDays = Math.abs(today - postDate)
-
     const diffInDays = Math.ceil(differenceBetweenDays / (1000*60*60*24));
 
     return diffInDays
 }
 
-const userDataLoader = new DataLoader(async(ids) => {
-    //2ª após as várias chamadas, esse método é executado uma vez, onde
-    //ids é um array sem duplicação composto pelos valores recebidos via parâmetro na primeira etapa
-    console.log('ids =>', ids)
-    const idsConcatenated = ids.join('&id=')
-    const url = 'http://localhost:3000/users/?id=' + idsConcatenated
-    const result = await fetch(url)
-    const allUsers = await result.json()
-    
-    // é retornado uma lista com os usários que têm seu id presente na lista de ids
-    const toReturn = ids.map(id => allUsers.find(user => user.id === id))
-    console.log('toReturn => ', toReturn)
-    return toReturn
-})
 
-const user = async ({userId}, parent, {getUsers}) => {
+const user = async ({userId}, parent, {userDataLoader}) => {
     //1ª esse log e achamada do dataloader é realizado pra cada post, na resolução do campo user
     console.log('o userId passado pro dataloader eh', userId)
     const postAuthor = await userDataLoader.load(userId)
