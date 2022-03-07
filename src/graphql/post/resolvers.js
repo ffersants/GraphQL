@@ -1,3 +1,6 @@
+import DataLoader from "dataloader"
+import fetch from 'node-fetch'
+
 const post = async (_, {id}, {getPosts}) => {
     //execução do resolver para tipo union passa primeiro aqui
     const result = await getPosts(`/${id}`)
@@ -21,9 +24,10 @@ const post = async (_, {id}, {getPosts}) => {
     return post
 }
 
-const posts = async (_, __, {getPosts}) => {
+const posts = async (parent, __, {getPosts}) => {
     const posts = await getPosts()
-    return posts.json()
+    const toReturn = posts.json()
+    return toReturn
 }
 
 const postsPagination = async (parent, {filters}, {getPosts}, info) => {
@@ -44,6 +48,32 @@ const daysFromCreation = (arg1) => {
     return diffInDays
 }
 
+const userDataLoader = new DataLoader(async(ids) => {
+    //2ª após as várias chamadas, esse método é executado uma vez, onde
+    //ids é um array sem duplicação composto pelos valores recebidos via parâmetro na primeira etapa
+    console.log('ids =>', ids)
+    const idsConcatenated = ids.join('&id=')
+    const url = 'http://localhost:3000/users/?id=' + idsConcatenated
+    const result = await fetch(url)
+    const allUsers = await result.json()
+    
+    // é retornado uma lista com os usários que têm seu id presente na lista de ids
+    const toReturn = ids.map(id => allUsers.find(user => user.id === id))
+    console.log('toReturn => ', toReturn)
+    return toReturn
+})
+
+const user = async ({userId}, parent, {getUsers}) => {
+    //1ª esse log e achamada do dataloader é realizado pra cada post, na resolução do campo user
+    console.log('o userId passado pro dataloader eh', userId)
+    const postAuthor = await userDataLoader.load(userId)
+    
+    //3ª de alguma maneira, aqui é lembrado o post que estava em resolução, e deste modo, o user
+    //autor do post é atribuído à variável postAuthor
+    console.log('o user do post eh', postAuthor)
+    return postAuthor
+}
+
 export const postResolvers = {
     Query: {
         post,
@@ -51,8 +81,9 @@ export const postResolvers = {
         postsPagination
     },
     Post: {
-        daysFromCreation
-    }, 
+        daysFromCreation,
+        user
+    },
     QueryResult: {
         __resolveType: (obj) => {
             //depois de ter executada a função resolver post(id), é executado essa função
