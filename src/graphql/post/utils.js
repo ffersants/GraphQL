@@ -1,3 +1,3 @@
 export const getPosts = (fetch) => (path = "/") => {
-    return fetch(`http://localhost:3000/posts${path}`);
+    return fetch(`${process.env.API_URL}/posts${path}`);
 };
