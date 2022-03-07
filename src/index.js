@@ -1,11 +1,15 @@
 import { ApolloServer, gql } from "apollo-server";
 import { typeDefs, resolvers } from "./graphql/schema";
 import { context } from "./graphql/context";
+import {PostsApi} from './graphql/post/datasource'
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context
+  context,
+  dataSources: () => ({
+    postsApi: new PostsApi()
+  })
 });
 
 const port = 7000;

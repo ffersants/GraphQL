@@ -1,6 +1,6 @@
-const post = async (_, {id}, {getPosts}) => {
+const post = async (_, {id}, {dataSources}) => {
     //execução do resolver para tipo union passa primeiro aqui
-    const result = await getPosts(`/${id}`)
+    const result = await dataSources.postsApi.getPost(`/${id}`)
     const post = await result.json()
 
     if(Math.random() > Math.random()){
@@ -21,15 +21,15 @@ const post = async (_, {id}, {getPosts}) => {
     return post
 }
 
-const posts = async (parent, __, {getPosts}) => {
-    const posts = await getPosts()
-    const toReturn = posts.json()
-    return toReturn
+const posts = async (parent, __, {dataSources}) => {
+    const posts = await dataSources.postsApi.getPosts()
+    console.log(posts)
+    return posts
 }
 
-const postsPagination = async (parent, {filters}, {getPosts}, info) => {
+const postsPagination = async (parent, {filters}, {dataSources}, info) => {
     const urlQuery = new URLSearchParams(filters)
-    const posts = await getPosts('/?' + urlQuery)
+    const posts = await dataSources.postsApi.getPosts('/?' + urlQuery)
     return posts.json()
 }
 
