@@ -1,18 +1,18 @@
 import fetch from 'node-fetch'
 
-const user = async (parent, {id}, {getUsers}, info) => {
-    const user = await getUsers(`/${id}`)
-    return user.json()
+const user = async (parent, {id}, {dataSources}, info) => {
+    const users = await dataSources.usersApi.getUser(id)
+    return users
 }
 
-const users = async (parent, resolverArguments, {getUsers}) => {
-    const users = await getUsers('/')
-   return users.json()
+const users = async (parent, resolverArguments, {dataSources}) => {
+    const users = await dataSources.usersApi.getUsers()
+    return users
 }
 
-async function userByName(parent, {firstName}, {userDataLoader}) {
-    const user = await getUsers(`?firstName=${firstName}`)
-    return user.json();
+async function userByName(parent, {firstName}, {dataSources}) {
+    const users = await dataSources.usersApi.getUsersByParams(`?firstName=${firstName}`)
+    return users
 }
 
 const fullName = (parent, resolverArguments, context, info) => {
