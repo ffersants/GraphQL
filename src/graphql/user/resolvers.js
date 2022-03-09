@@ -20,8 +20,8 @@ const fullName = (parent, resolverArguments, context, info) => {
     return `${firstName} ${lastName}`;
 }
 
-const posts = async ({id}, resolverArgs, {postDataLoader}) => {
-    const userPosts = await postDataLoader.load(id)
+const posts = async ({id}, resolverArgs, {dataSources}) => {
+    const userPosts = await dataSources.postsApi.dataloader.load(id)
     return userPosts
 }
 

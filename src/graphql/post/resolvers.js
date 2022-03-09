@@ -1,36 +1,33 @@
 const post = async (_, {id}, {dataSources}) => {
     //execução do resolver para tipo union passa primeiro aqui
     const result = await dataSources.postsApi.getPost(`/${id}`)
-    const post = await result.json()
+    // if(Math.random() > Math.random()){
+    //     return {
+    //         statusCode: 404,
+    //         message: "Connection timeout",
+    //         postId: id
+    //     }
+    // }
 
-    if(Math.random() > Math.random()){
-        return {
-            statusCode: 404,
-            message: "Connection timeout",
-            postId: id
-        }
-    }
+    // if(typeof post.id === "undefined") {
+    //     return {
+    //         statusCode: 404,
+    //         message: "Couldn't find post"
+    //     }
+    // }
 
-    if(typeof post.id === "undefined") {
-        return {
-            statusCode: 404,
-            message: "Couldn't find post"
-        }
-    }
-
-    return post
+    return result
 }
 
 const posts = async (parent, __, {dataSources}) => {
     const posts = await dataSources.postsApi.getPosts()
-    console.log(posts)
     return posts
 }
 
 const postsPagination = async (parent, {filters}, {dataSources}, info) => {
     const urlQuery = new URLSearchParams(filters)
     const posts = await dataSources.postsApi.getPosts('/?' + urlQuery)
-    return posts.json()
+    return posts
 }
 
 const daysFromCreation = (arg1) => {
