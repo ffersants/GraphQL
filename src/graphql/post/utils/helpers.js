@@ -8,6 +8,15 @@ export const createPostFn = async(postData, datasource) => {
     return await datasource.post('', {...post})
 }
 
+export const updatePostFn = async(postData, postId, datasource) => {
+    if(!postId) throw new ValidationError('PostId is required')
+
+    const {title, body, userId} = postData    
+    if(!title || !body || !userId) throw new ValidationError('Title, body and userId are required')
+    
+    return await datasource.patch(postId, {...postData})
+}
+
 const userExists = async(userId, datasource) => {
     try{
         await datasource.context.dataSources.usersApi.get('/' + userId)

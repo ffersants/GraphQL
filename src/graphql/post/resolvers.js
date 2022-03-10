@@ -37,6 +37,11 @@ const createPost = async(parent, {postData}, {dataSources}) => {
     return i
 }
 
+const updatePost = async(parent, {postData, postId}, {dataSources}) => {
+    const i = await dataSources.postsApi.updatePost(postData, postId)
+    return i
+}
+
 //TRIVIAL RESOLVERS
 const daysFromCreation = (arg1) => {
     const {createdAt} = arg1
@@ -67,7 +72,8 @@ export const postResolvers = {
         postsPagination
     },
     Mutation: {
-        createPost
+        createPost,
+        updatePost
     },
     Post: {
         daysFromCreation,

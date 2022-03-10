@@ -9,6 +9,7 @@ export const postTypeDefs = gql`
 
     type Mutation {
         createPost(postData: dataToCreatePost): Post!
+        updatePost(postData: dataToCreatePost!, postId: ID!): Post!
     }
 
     union QueryResult = QueryWarning | Post | QueryTimeOut 
