@@ -6,7 +6,7 @@ export const apiFiltersTypeDefs = gql`
         _order: ApiOrderFilter
         _start: Int
         _limit: Int
-    }
+    } 
     enum ApiOrderFilter {
         ASC,
         DESC

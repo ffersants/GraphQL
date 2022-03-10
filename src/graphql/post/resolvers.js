@@ -1,3 +1,4 @@
+//QUERY RESOLVERS
 const post = async (_, {id}, {dataSources}) => {
     //execução do resolver para tipo union passa primeiro aqui
     const result = await dataSources.postsApi.getPost(`/${id}`)
@@ -30,6 +31,13 @@ const postsPagination = async (parent, {filters}, {dataSources}, info) => {
     return posts
 }
 
+//MUTATION RESOLVERS
+const createPost = async(parent, {postData}, {dataSources}) => {
+    const i = await dataSources.postsApi.createPost(postData)
+    return i
+}
+
+//TRIVIAL RESOLVERS
 const daysFromCreation = (arg1) => {
     const {createdAt} = arg1
     const postDate = new Date(createdAt)
@@ -40,7 +48,6 @@ const daysFromCreation = (arg1) => {
 
     return diffInDays
 }
-
 
 const user = async ({userId}, parent, {dataSources}) => {
     //1ª esse log e achamada do dataloader é realizado pra cada post, na resolução do campo user
@@ -58,6 +65,9 @@ export const postResolvers = {
         post,
         posts,
         postsPagination
+    },
+    Mutation: {
+        createPost
     },
     Post: {
         daysFromCreation,

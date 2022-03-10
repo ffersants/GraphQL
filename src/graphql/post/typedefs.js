@@ -1,10 +1,14 @@
 import { gql } from "apollo-server-core";
 
 export const postTypeDefs = gql`
-    extend type Query {
+    type Query {
         post(id: ID): QueryResult
         posts: [Post]
         postsPagination(filters: ApiFilters): [Post]!
+    }
+
+    type Mutation {
+        createPost(postData: dataToCreatePost): Post!
     }
 
     union QueryResult = QueryWarning | Post | QueryTimeOut 
@@ -23,6 +27,12 @@ export const postTypeDefs = gql`
         message: String!
         statusCode: Int!
         postId: Int!
+    }
+
+    input dataToCreatePost {
+        title: String!
+        body: String!
+        userId: Int!
     }
 
     type Post {
