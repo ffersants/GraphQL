@@ -42,6 +42,10 @@ const updatePost = async(parent, {postData, postId}, {dataSources}) => {
     return i
 }
 
+const deletePost = async(parent, {postId}, {dataSources}) => {
+    return await dataSources.postsApi.deletePost(postId)
+}
+
 //TRIVIAL RESOLVERS
 const daysFromCreation = (arg1) => {
     const {createdAt} = arg1
@@ -73,7 +77,8 @@ export const postResolvers = {
     },
     Mutation: {
         createPost,
-        updatePost
+        updatePost,
+        deletePost
     },
     Post: {
         daysFromCreation,

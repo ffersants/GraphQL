@@ -1,6 +1,6 @@
 import {RESTDataSource} from 'apollo-datasource-rest'
 import {makeUserDataLoader} from './dataloaders'
-
+import {createUserFn} from './utils/helper'
 export class UsersApi extends RESTDataSource{
     constructor(){
         super()
@@ -10,6 +10,16 @@ export class UsersApi extends RESTDataSource{
 
     getUsers(){
         return this.get('')
+    }
+
+    createUser(userData){
+        return createUserFn(userData, this)
+    }
+
+    async deleteUser(userId){
+            return this.delete(userId)
+                .then(() => true)
+                .catch(() => false)
     }
 
     getUser(userId){

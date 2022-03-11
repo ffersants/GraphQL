@@ -6,6 +6,18 @@ export const userTypeDefs = gql`
         userByName(firstName: String!): [User!]!
         users: [User!]!
     }
+
+    type Mutation {
+        createUser(data: userData): User!
+        deleteUser(userId: ID!): Boolean
+    }
+
+    input userData {
+        userName: String!
+        firstName: String!
+        lastName: String!
+    }
+
     type User {
         id: ID!
         firstName: String!

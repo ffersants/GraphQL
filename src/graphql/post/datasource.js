@@ -22,9 +22,14 @@ export class PostsApi extends RESTDataSource{
         return i
     }
 
-    async updatePost(postData, postId){
+    async updatePost(postId){
         const i = await updatePostFn(postData, postId, this)
         return i
+    }
+
+    async deletePost(postId){
+        console.log(postId)
+        return await this.delete(postId)
     }
 
     async getPost(postId){
