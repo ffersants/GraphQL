@@ -1,3 +1,7 @@
+// import {PubSub} from 'apollo-server-express'
+
+// export const pubSub = new PubSub()
+
 const getComments = async (parent, {postId}, {dataSources}, info) => {
     return await dataSources.commentsApi.getComments(postId)
 }
@@ -12,5 +16,10 @@ export const commentResolvers = {
     },
     Mutation: {
         createComment
-    }
+    },
+    // Subscription: {
+    //     onComment: {
+    //         subscribe: () => pubSub.asyncIterator('COMMENT_TRIGGER')
+    //     }
+    // }
 }

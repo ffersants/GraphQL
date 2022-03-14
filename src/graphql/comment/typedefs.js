@@ -9,6 +9,10 @@ export const commentTypeDefs = gql`
         createComment(commentData: CommentInput): Boolean
     }
 
+    # extend type Subscription {
+    #     onComment: Comment!
+    # }
+
     type Comment {
         comment: String!
         author: ID!

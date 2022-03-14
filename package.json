@@ -1,5 +1,5 @@
 {
-  "name": "graphql",
+  "name": "graphql-studies",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,12 +13,14 @@
   "dependencies": {
     "@vscode/sqlite3": "^5.0.7",
     "apollo-datasource-rest": "^3.5.1",
-    "apollo-server": "^3.3.0",
+    "apollo-server-core": "^3.6.4",
+    "apollo-server-express": "^3.6.4",
     "better-sqlite3": "^7.5.0",
     "dataloader": "^2.0.0",
     "datasource-sql": "^1.6.0",
     "dotenv": "^16.0.0",
-    "graphql": "^15.6.1",
+    "express": "^4.17.3",
+    "graphql": "^15.8.0",
     "graphql-fields": "^2.0.3",
     "json-server": "^0.17.0",
     "knex": "^1.0.4",
