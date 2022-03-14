@@ -1,25 +1,15 @@
-import { RESTDataSource } from "apollo-datasource-rest";
-import {makePostDataLoader} from './dataloaders'
+import { SQLDataSource  } from "datasource-sql";
 import {createPostFn, updatePostFn} from './utils/helpers'
-export class PostsApi extends RESTDataSource{
-    constructor(){
-        super();
-        this.baseURL = process.env.API_URL + '/posts/'
-        this.dataloader = makePostDataLoader(this.getPosts.bind(this))
-    }
+export class PostsApi extends SQLDataSource{
 
-    async getPosts(urlParams){
-        return this.get(this.baseURL, urlParams, {
-            cacheOptions: {
-                ttl: 15
-            }
-        })
+    async getPosts(fields = '*', postsId){
+        return this.knex
+            .select(...fields)
+            .from('posts')
     }
 
     async createPost(postData){
-        const i = await createPostFn(postData, this)
-        console.log(i)
-        return i
+        return this.knex('posts').insert({...postData})
     }
 
     async updatePost(postId){

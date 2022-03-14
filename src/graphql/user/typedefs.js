@@ -16,6 +16,7 @@ export const userTypeDefs = gql`
         userName: String!
         firstName: String!
         lastName: String!
+        pswd: String!
     }
 
     type User {

@@ -1,3 +1,6 @@
+
+import graphqlFields from "graphql-fields"
+
 //QUERY RESOLVERS
 const post = async (_, {id}, {dataSources}) => {
     //execução do resolver para tipo union passa primeiro aqui
@@ -20,8 +23,9 @@ const post = async (_, {id}, {dataSources}) => {
     return result
 }
 
-const posts = async (parent, __, {dataSources}) => {
-    const posts = await dataSources.postsApi.getPosts()
+const posts = async (parent, _, {dataSources}, context) => {
+    const askedFields = Object.keys(graphqlFields(context))
+    const posts = await dataSources.postsApi.getPosts(askedFields)
     return posts
 }
 

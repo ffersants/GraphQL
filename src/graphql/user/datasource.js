@@ -1,19 +1,14 @@
-import {RESTDataSource} from 'apollo-datasource-rest'
+import { SQLDataSource  } from "datasource-sql";
 import {makeUserDataLoader} from './dataloaders'
 import {createUserFn} from './utils/helper'
-export class UsersApi extends RESTDataSource{
-    constructor(){
-        super()
-        this.baseURL = process.env.API_URL + '/users/'
-        this.dataloader = makeUserDataLoader(this.getUsersByParams.bind(this))
-    }
-
+export class UsersApi extends SQLDataSource{
     getUsers(){
         return this.get('')
     }
 
     createUser(userData){
-        return createUserFn(userData, this)
+        return this.knex('users')
+            .insert({...userData})
     }
 
     async deleteUser(userId){

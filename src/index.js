@@ -3,16 +3,18 @@ import { typeDefs, resolvers } from "./graphql/schema";
 import { context } from "./graphql/context";
 import {PostsApi} from './graphql/post/datasource'
 import {UsersApi} from './graphql/user/datasource'
+import knexConfig from '../knexfile'
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context,
   dataSources: () => ({
-    postsApi: new PostsApi(),
-    usersApi: new UsersApi()
+    postsApi: new PostsApi(knexConfig.staging),
+    usersApi: new UsersApi(knexConfig.staging)
   })
 });
+
 
 const port = 7000;
 
