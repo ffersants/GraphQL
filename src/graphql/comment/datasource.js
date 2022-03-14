@@ -1,5 +1,6 @@
 import {SQLDataSource} from 'datasource-sql'
-import {pubSub} from './resolvers'
+import {pubsub} from '../pubsub'
+
 export class CommentsApi extends SQLDataSource {
     getComments(postId){
         console.log(postId)
@@ -11,8 +12,10 @@ export class CommentsApi extends SQLDataSource {
 
     createComment(commentData){
         const comment = this.knex('comments').insert({...commentData});
-        
-        pubSub.publish('COMMENT_TRIGGER')
+        console.log(commentData)
+        pubsub.publish(['COMMENT_TRIGGER'], {
+            onComment: commentData
+        })
         
         return comment
     }
