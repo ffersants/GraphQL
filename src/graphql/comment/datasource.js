@@ -2,6 +2,7 @@ import {SQLDataSource} from 'datasource-sql'
 
 export class CommentsApi extends SQLDataSource {
     getComments(postId){
+        console.log(postId)
         return this.knex
             .select('*')
             .from('comments')

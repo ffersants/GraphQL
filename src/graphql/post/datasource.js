@@ -1,11 +1,20 @@
 import { SQLDataSource  } from "datasource-sql";
 import {createPostFn, updatePostFn} from './utils/helpers'
 export class PostsApi extends SQLDataSource{
-
-    async getPosts(fields = '*', postsId){
-        return this.knex
-            .select(...fields)
+    constructor(config) {
+        super(config)
+    }
+    
+    async getPosts(){
+        try{
+            return this.knex
+            .select('*')
             .from('posts')
+        }
+        catch(e){
+            console.log(e)
+            console.log(typeof e)
+        }
     }
 
     async createPost(postData){

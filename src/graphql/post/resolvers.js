@@ -23,8 +23,8 @@ const post = async (_, {id}, {dataSources}) => {
     return result
 }
 
-const posts = async (parent, _, {dataSources}, context) => {
-    const askedFields = Object.keys(graphqlFields(context))
+const posts = async (parent, _, {dataSources}, info) => {
+    const askedFields = Object.keys(graphqlFields(info))
     const posts = await dataSources.postsApi.getPosts(askedFields)
     return posts
 }
@@ -67,6 +67,11 @@ const user = async ({userId}, parent, {dataSources}) => {
     return postAuthor
 }
 
+const comments = async ({id}, parent, {dataSources}) => {
+    const comments = await dataSources.commentsApi.getComments(id)
+    return comments
+}
+
 export const postResolvers = {
     Query: {
         post,
@@ -80,7 +85,8 @@ export const postResolvers = {
     },
     Post: {
         daysFromCreation,
-        user
+        user,
+        comments
     },
     QueryResult: {
         __resolveType: (obj) => {

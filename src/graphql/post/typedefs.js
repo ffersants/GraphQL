@@ -45,6 +45,7 @@ export const postTypeDefs = gql`
         indexRef: Int!
         createdAt: String!
         daysFromCreation: Int!
+        comments: [Comment]!
     }
 `
  
