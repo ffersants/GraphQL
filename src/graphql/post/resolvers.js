@@ -63,13 +63,7 @@ const daysFromCreation = (arg1) => {
 }
 
 const user = async ({userId}, parent, {dataSources}) => {
-    //1ª esse log e achamada do dataloader é realizado pra cada post, na resolução do campo user
-    console.log('o userId passado pro dataloader eh', userId)
     const postAuthor = await dataSources.usersApi.dataloader.load(userId)
-    
-    //3ª de alguma maneira, aqui é lembrado o post que estava em resolução, e deste modo, o user
-    //autor do post é atribuído à variável postAuthor
-    console.log('o user do post eh', postAuthor)
     return postAuthor
 }
 
