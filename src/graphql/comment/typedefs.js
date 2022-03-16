@@ -15,7 +15,7 @@ export const commentTypeDefs = gql`
 
     type Comment {
         comment: String!
-        authorId: ID!
+        author: User!
     }
 
     input CommentInput {

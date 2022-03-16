@@ -3,7 +3,6 @@ import {pubsub} from '../pubsub'
 
 export class CommentsApi extends SQLDataSource {
     getComments(postId){
-        console.log(postId)
         return this.knex
             .select('*')
             .from('comments')
@@ -12,7 +11,7 @@ export class CommentsApi extends SQLDataSource {
 
     createComment(commentData){
         const comment = this.knex('comments').insert({...commentData});
-        console.log(commentData)
+        
         pubsub.publish(['COMMENT_TRIGGER'], {
             onComment: commentData
         })

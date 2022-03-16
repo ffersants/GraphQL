@@ -2,8 +2,14 @@ import { SQLDataSource  } from "datasource-sql";
 import {makeUserDataLoader} from './dataloaders'
 import {createUserFn} from './utils/helper'
 export class UsersApi extends SQLDataSource{
+
+    constructor(knexConfig){
+        super(knexConfig)
+        this.dataloader = makeUserDataLoader(this.getUser.bind(this))
+    }
+
     getUsers(){
-        return this.get('')
+        return this.knex('')
     }
 
     createUser(userData){
@@ -12,13 +18,16 @@ export class UsersApi extends SQLDataSource{
     }
 
     async deleteUser(userId){
-            return this.delete(userId)
-                .then(() => true)
-                .catch(() => false)
+            return this.knex('users')
+                .where(userId)
+                .delete()
     }
 
-    getUser(userId){
-        return this.get(userId)
+    async getUser(userId){
+        console.log(userId)
+         return this.knex('users')
+            .select('*')
+            .whereIn('id', userId)
     }
 
     getUsersByParams(params = ''){

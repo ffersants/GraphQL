@@ -1,11 +1,8 @@
 import DataLoader from "dataloader"
 
-export const makeUserDataLoader = (getUsers) => {
+export const makeUserDataLoader = (getUser) => {
     return new DataLoader(async(ids) => {
-        const idsConcatenated = ids.join('&id=')
-        const users = await getUsers('?id='+idsConcatenated)
-        const toReturn = ids.map(id => users.find(user => user.id === id))
-        return toReturn
+        return getUser(ids)
     })
 }
 
